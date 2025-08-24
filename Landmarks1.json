@@ -26,7 +26,7 @@
       "id": 2,
       "name": "Mont Venteux",
       "description": "Colline solitaire offrant une vue sur la Grande Route de l'Est.",
-      "imageUrl": "/images/weathertop.png",
+      "imageUrl": "/Images/weathertop.png",
       "color": "blue",
       "coordinates": {
         "x": 3721.45,
@@ -72,7 +72,7 @@
       "id": 6,
       "name": "Tharbad",
       "description": "Les ruines d'une grande cité traversée par la rivière Gwathló.",
-      "imageUrl": "https://tolkiengateway.net/w/images/thumb/8/8f/Rob_Alexander_-_The_Ruins_of_Tharbad.jpg/320px-Rob_Alexander_-_The_Ruins_of_Tharbad.jpg",
+      "imageUrl": "https://tolkiengateway.net/w/Images/thumb/8/8f/Rob_Alexander_-_The_Ruins_of_Tharbad.jpg/320px-Rob_Alexander_-_The_Ruins_of_Tharbad.jpg",
       "color": "blue",
       "coordinates": {
         "x": 3635.1,
@@ -127,7 +127,7 @@
       "id": 11,
       "name": "Les Tours Blanches",
       "description": "Trois antiques tours elfiques à l'ouest de la Comté. La plus haute abrite un Palantír qui ne regarde que vers l'Ouest.",
-      "imageUrl": "/images/white_towers.png",
+      "imageUrl": "/Images/white_towers.png",
       "color": "blue",
       "coordinates": {
         "x": 2237.45,
@@ -151,7 +151,7 @@
       "id": 13,
       "name": "Les Îles Embrumées",
       "description": "Des îles mystérieuses au milieu du Lac Evendim, hantées par une ancienne créature.",
-      "imageUrl": "/images/shrouded_islets.png",
+      "imageUrl": "/Images/shrouded_islets.png",
       "color": "green",
       "coordinates": {
         "x": 2725.27,
@@ -164,7 +164,7 @@
       "id": 14,
       "name": "Tindailin",
       "description": "Les vestiges d'un refuge elfe près du Gué de Sarn, dont le lac est hanté par un esprit amer.",
-      "imageUrl": "/images/tindailin.png",
+      "imageUrl": "/Images/tindailin.png",
       "color": "violet",
       "coordinates": {
         "x": 3080.66,
@@ -188,7 +188,7 @@
       "id": 16,
       "name": "Les Champs du Massacre",
       "description": "Le site de la grande bataille de Fornost, une plaine hantée par le chagrin et les esprits des morts.",
-      "imageUrl": "/images/fields_of_slaughter.png",
+      "imageUrl": "/Images/fields_of_slaughter.png",
       "color": "green",
       "coordinates": {
         "x": 3376.32,
@@ -257,7 +257,7 @@
       "id": 1755777861449,
       "name": "Fondcombe",
       "description": "",
-      "imageUrl": "/images/rivendell.png",
+      "imageUrl": "/Images/rivendell.png",
       "color": "blue",
       "known": true,
       "visited": false,

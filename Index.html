@@ -73,11 +73,16 @@
             z-index: 30;
             max-width: 280px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
         }
         #info-box.expanded {
             max-width: none;
-            width: auto;
-            height: auto;
+            width: 90vw;
+            height: 90vh;
+            font-size: 16px;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
         #info-box-scroll-wrapper {
             max-height: 250px;
@@ -86,7 +91,22 @@
         }
         #info-box.expanded #info-box-scroll-wrapper {
             max-height: none;
-            height: 100%;
+            height: calc(100% - 3rem);
+            padding-right: 1rem;
+        }
+        #info-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #info-box.expanded #info-box-header {
+            margin-bottom: 1.5rem;
+        }
+        #info-box-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
         #info-box-close {
             position: absolute;
@@ -94,25 +114,157 @@
             right: 8px;
             cursor: pointer;
             color: #9ca3af;
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
         }
         #info-box-close:hover {
             color: white;
-        }
-        #info-box-edit {
-            cursor: pointer;
-            margin-left: 8px;
-            color: #9ca3af;
-        }
-        #info-box-edit:hover {
-            color: white;
+            background-color: rgba(239, 68, 68, 0.2);
         }
         #info-box-expand {
             cursor: pointer;
-            margin-left: 8px;
             color: #9ca3af;
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
         }
         #info-box-expand:hover {
             color: white;
+            background-color: rgba(59, 130, 246, 0.2);
+        }
+        #info-box-edit {
+            cursor: pointer;
+            color: #9ca3af;
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        #info-box-edit:hover {
+            color: white;
+            background-color: rgba(34, 197, 94, 0.2);
+        }
+        /* Enhanced content display for expanded mode */
+        #info-box.expanded #info-box-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        #info-box.expanded #info-box-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        #info-box.expanded .image-view {
+            height: calc(100% - 2rem);
+            padding: 0;
+        }
+        #info-box.expanded .image-view img {
+            max-height: calc(100% - 4rem);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        /* Tab system styles */
+        #info-box-tabs {
+            display: none;
+            border-bottom: 1px solid #4b5563;
+            margin-bottom: 1rem;
+        }
+        #info-box.expanded #info-box-tabs {
+            display: flex;
+        }
+        .tab-button {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .tab-button:hover {
+            color: #d1d5db;
+        }
+        .tab-button.active {
+            color: white;
+            border-bottom-color: #3b82f6;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Image view styles */
+        .image-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 1rem;
+        }
+        .image-view img {
+            max-width: 100%;
+            max-height: calc(100% - 6rem);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .image-view .image-caption {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: #d1d5db;
+            font-style: italic;
+        }
+        .image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            width: 100%;
+            background-color: rgba(75, 85, 99, 0.3);
+            border: 2px dashed #6b7280;
+            border-radius: 8px;
+            color: #9ca3af;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+        #info-box.expanded .image-placeholder {
+            height: 400px;
+            font-size: 1.5rem;
+        }
+        
+        /* Text view styles */
+        .text-view {
+            padding: 0.5rem 0;
+        }
+        .text-view h3 {
+            margin-bottom: 1.5rem;
+        }
+        .text-view p {
+            margin-bottom: 1rem;
         }
         /* Loader styles */
         #loader-overlay {
@@ -204,11 +356,33 @@
         
         <!-- Info Box -->
         <div id="info-box">
+            <div id="info-box-header">
+                <div id="info-box-controls">
+                    <i id="info-box-edit" class="fas fa-pencil-alt" title="Modifier"></i>
+                    <i id="info-box-expand" class="fas fa-expand" title="Vue étendue"></i>
+                    <i id="info-box-close" class="fas fa-times" title="Fermer"></i>
+                </div>
+            </div>
+            <div id="info-box-tabs">
+                <button class="tab-button active" data-tab="image">Image</button>
+                <button class="tab-button" data-tab="text">Texte</button>
+            </div>
             <div id="info-box-scroll-wrapper">
-                <div id="info-box-content"></div>
+                <div id="info-box-content">
+                    <div id="image-tab" class="tab-content active">
+                        <div class="image-view">
+                            <div class="image-placeholder">Aucune image disponible</div>
+                        </div>
+                    </div>
+                    <div id="text-tab" class="tab-content">
+                        <div class="text-view">
+                            <h3></h3>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
                 <div id="info-box-edit-content" class="hidden"></div>
             </div>
-            <i id="info-box-close" class="fas fa-times"></i>
         </div>
 
         <!-- Viewport -->
@@ -433,19 +607,35 @@
             const location = locationsData.locations.find(loc => loc.id === activeLocationId);
             if (!location) return;
 
-            const imageHtml = location.imageUrl ? `<img src="${location.imageUrl}" class="w-full h-32 object-cover rounded-md mb-2" onerror="this.style.display='none'">` : '';
-            const infoBoxContent = document.getElementById('info-box-content');
-            infoBoxContent.innerHTML = `
-                ${imageHtml}
-                <div class="flex items-center mb-2">
-                    <h3 class="text-lg font-bold">${location.name}</h3>
-                    <i id="info-box-edit" class="fas fa-pencil-alt ml-2 text-gray-400 hover:text-white cursor-pointer"></i>
-                    <i id="info-box-expand" class="fas ${infoBox.classList.contains('expanded') ? 'fa-compress' : 'fa-expand'} ml-2 text-gray-400 hover:text-white cursor-pointer" title="Basculer compact/étendu"></i>
+            // Update image tab content
+            const imageTab = document.getElementById('image-tab');
+            if (location.imageUrl) {
+                imageTab.innerHTML = `
+                    <div class="image-view">
+                        <img src="${location.imageUrl}" alt="${location.name}" onerror="handleImageError(this)">
+                        <div class="image-caption">${location.name}</div>
+                    </div>
+                `;
+            } else {
+                imageTab.innerHTML = `
+                    <div class="image-view">
+                        <div class="image-placeholder">Aucune image disponible</div>
+                    </div>
+                `;
+            }
+
+            // Update text tab content
+            const textTab = document.getElementById('text-tab');
+            textTab.innerHTML = `
+                <div class="text-view">
+                    <h3>${location.name}</h3>
+                    <p>${location.description || 'Aucune description.'}</p>
                 </div>
-                <p class="text-gray-300">${location.description || 'Aucune description.'}</p>
             `;
+
+            // Show the info box
             document.getElementById('info-box-edit-content').classList.add('hidden');
-            infoBoxContent.classList.remove('hidden');
+            document.getElementById('info-box-content').classList.remove('hidden');
 
             infoBox.style.display = 'block';
             if (infoBox.classList.contains('expanded')) {
@@ -454,14 +644,47 @@
                 positionInfoBoxCompact(event);
             }
 
+            // Set up event listeners
             document.getElementById('info-box-edit').addEventListener('click', enterEditMode);
             const expandBtn = document.getElementById('info-box-expand');
             if (expandBtn) expandBtn.addEventListener('click', toggleInfoBoxExpand);
+            
+            // Set up tab switching
+            setupTabSwitching();
         }
 
         function hideInfoBox() {
             infoBox.style.display = 'none';
             activeLocationId = null;
+        }
+
+        function setupTabSwitching() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+                    activateTab(targetTab);
+                });
+            });
+        }
+
+        function activateTab(tabName) {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Update active tab button
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            
+            // Update active tab content
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        function handleImageError(imgElement) {
+            imgElement.parentElement.innerHTML = '<div class="image-placeholder">Erreur de chargement de l\'image</div>';
         }
 
         function enterEditMode() {
@@ -580,38 +803,46 @@
             const tbRect = getToolbarRect();
             const margin = 16;
 
-            // Compute desired size (90% of viewport)
-            let desiredWidth = Math.floor(vpRect.width * 0.9);
-            const availableRightOfToolbar = Math.floor(vpRect.width - (tbRect.right - vpRect.left) - margin);
-            // Ensure it doesn't cover the toolbar
-            desiredWidth = Math.min(desiredWidth, availableRightOfToolbar);
-
+            // Use 90% of viewport dimensions
+            const desiredWidth = Math.floor(vpRect.width * 0.9);
             const desiredHeight = Math.floor(vpRect.height * 0.9);
 
-            // Prefer centering, but at least to the right of the toolbar
-            const centeredLeft = Math.floor((vpRect.width - desiredWidth) / 2);
+            // Ensure it doesn't cover the toolbar
+            const availableRightOfToolbar = Math.floor(vpRect.width - (tbRect.right - vpRect.left) - margin);
+            const finalWidth = Math.min(desiredWidth, availableRightOfToolbar);
+
+            // Center horizontally, but ensure it's to the right of the toolbar
+            const centeredLeft = Math.floor((vpRect.width - finalWidth) / 2);
             const minLeft = Math.max(margin, tbRect.right - vpRect.left + margin);
             const left = Math.max(centeredLeft, minLeft);
-            const top = margin;
+            
+            // Center vertically
+            const top = Math.floor((vpRect.height - desiredHeight) / 2);
 
             infoBox.style.left = `${left}px`;
             infoBox.style.top = `${top}px`;
-            infoBox.style.width = `${desiredWidth}px`;
+            infoBox.style.width = `${finalWidth}px`;
             infoBox.style.height = `${desiredHeight}px`;
             infoBox.style.maxWidth = 'none';
+            
             const scrollWrapper = document.getElementById('info-box-scroll-wrapper');
             if (scrollWrapper) {
                 scrollWrapper.style.maxHeight = 'none';
-                scrollWrapper.style.height = '100%';
+                scrollWrapper.style.height = 'calc(100% - 3rem)';
             }
         }
 
         function toggleInfoBoxExpand() {
             const isExpanded = infoBox.classList.toggle('expanded');
             const expandBtn = document.getElementById('info-box-expand');
-            if (expandBtn) expandBtn.className = `fas ${isExpanded ? 'fa-compress' : 'fa-expand'} ml-2 text-gray-400 hover:text-white cursor-pointer`;
+            if (expandBtn) {
+                expandBtn.className = `fas ${isExpanded ? 'fa-compress' : 'fa-expand'}`;
+                expandBtn.title = isExpanded ? 'Vue compacte' : 'Vue étendue';
+            }
             if (isExpanded) {
                 positionInfoBoxExpanded();
+                // Activate image tab by default when expanding
+                activateTab('image');
             } else {
                 // Return to a sane compact position near top-left but outside toolbar
                 const fakeEvent = { clientX: viewport.getBoundingClientRect().left + 200, clientY: viewport.getBoundingClientRect().top + 120 };
@@ -622,6 +853,13 @@
         window.addEventListener('resize', () => {
             if (infoBox.style.display === 'block' && infoBox.classList.contains('expanded')) {
                 positionInfoBoxExpanded();
+            }
+        });
+
+        // Handle escape key to close info box
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && infoBox.style.display === 'block') {
+                hideInfoBox();
             }
         });
 
