@@ -60,6 +60,13 @@
         .location-marker:hover {
             border-color: white !important;
         }
+        /* Override cursor when in drawing mode */
+        .drawing .location-marker {
+            cursor: crosshair !important;
+        }
+        .drawing .location-marker:hover {
+            cursor: crosshair !important;
+        }
         /* Style for the info box */
         #info-box {
             position: absolute;
@@ -595,8 +602,24 @@
                 marker.style.backgroundColor = location.known ? (colorMap[location.color] || colorMap.red) : 'rgba(107, 114, 128, 0.7)';
                 marker.style.borderColor = location.visited ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)';
                 marker.dataset.id = location.id;
-                marker.addEventListener('mousedown', startDragMarker);
-                marker.addEventListener('click', (e) => { if (e.detail > 0) showInfoBox(e); });
+                
+                // Only allow dragging when not in drawing or adding location mode
+                if (!isDrawingMode && !isAddingLocationMode) {
+                    marker.addEventListener('mousedown', startDragMarker);
+                }
+                
+                marker.addEventListener('click', (e) => { 
+                    if (e.detail > 0) {
+                        if (isDrawingMode) {
+                            // Start drawing from this location
+                            startDrawingFromLocation(e, location);
+                        } else if (!isAddingLocationMode) {
+                            // Show info box normally
+                            showInfoBox(e);
+                        }
+                    }
+                });
+                
                 locationsLayer.appendChild(marker);
             });
         }
@@ -685,6 +708,49 @@
 
         function handleImageError(imgElement) {
             imgElement.parentElement.innerHTML = '<div class="image-placeholder">Erreur de chargement de l\'image</div>';
+        }
+
+        function startDrawingFromLocation(event, location) {
+            console.log("🎯 Starting drawing from location:", location.name);
+            
+            // Convert location coordinates to canvas coordinates
+            const canvasCoords = {
+                x: location.coordinates.x,
+                y: location.coordinates.y
+            };
+            
+            console.log("📍 Canvas coordinates:", canvasCoords);
+            
+            // Clear any existing drawing
+            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+            
+            // Start drawing from this location
+            isDrawing = true;
+            totalPathPixels = 0;
+            startPoint = canvasCoords;
+            lastPoint = canvasCoords;
+            
+            // Begin the path
+            ctx.beginPath();
+            ctx.moveTo(lastPoint.x, lastPoint.y);
+            
+            // Draw a small circle to show the starting point
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+            ctx.beginPath();
+            ctx.arc(lastPoint.x, lastPoint.y, 4, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Begin the path again for the line
+            ctx.beginPath();
+            ctx.moveTo(lastPoint.x, lastPoint.y);
+            
+            // Update distance display
+            updateDistanceDisplay();
+            
+            // Show distance container
+            distanceContainer.classList.remove('hidden');
+            
+            console.log("✅ Drawing started successfully");
         }
 
         function enterEditMode() {
@@ -925,8 +991,26 @@
         document.getElementById('zoom-in').addEventListener('click', () => { scale *= 1.2; applyTransform(); });
         document.getElementById('zoom-out').addEventListener('click', () => { scale /= 1.2; applyTransform(); });
         document.getElementById('reset-zoom').addEventListener('click', resetView);
-        document.getElementById('draw-mode').addEventListener('click', (e) => { isAddingLocationMode = false; viewport.classList.remove('adding-location'); document.getElementById('add-location-mode').classList.remove('btn-active'); isDrawingMode = !isDrawingMode; viewport.classList.toggle('drawing', isDrawingMode); e.currentTarget.classList.toggle('btn-active', isDrawingMode); });
-        document.getElementById('add-location-mode').addEventListener('click', (e) => { isDrawingMode = false; viewport.classList.remove('drawing'); document.getElementById('draw-mode').classList.remove('btn-active'); isAddingLocationMode = !isAddingLocationMode; viewport.classList.toggle('adding-location', isAddingLocationMode); e.currentTarget.classList.toggle('btn-active', isAddingLocationMode); });
+        document.getElementById('draw-mode').addEventListener('click', (e) => { 
+            isAddingLocationMode = false; 
+            viewport.classList.remove('adding-location'); 
+            document.getElementById('add-location-mode').classList.remove('btn-active'); 
+            isDrawingMode = !isDrawingMode; 
+            viewport.classList.toggle('drawing', isDrawingMode); 
+            e.currentTarget.classList.toggle('btn-active', isDrawingMode); 
+            // Re-render locations to update event handlers
+            renderLocations();
+        });
+        document.getElementById('add-location-mode').addEventListener('click', (e) => { 
+            isDrawingMode = false; 
+            viewport.classList.remove('drawing'); 
+            document.getElementById('draw-mode').classList.remove('btn-active'); 
+            isAddingLocationMode = !isAddingLocationMode; 
+            viewport.classList.toggle('adding-location', isAddingLocationMode); 
+            e.currentTarget.classList.toggle('btn-active', isAddingLocationMode); 
+            // Re-render locations to update event handlers
+            renderLocations();
+        });
         document.getElementById('erase').addEventListener('click', () => { ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height); totalPathPixels = 0; startPoint = null; lastPoint = null; updateDistanceDisplay(); });
         document.getElementById('export-locations').addEventListener('click', exportLocationsToFile);
         document.getElementById('import-locations').addEventListener('click', () => document.getElementById('import-file-input').click());
